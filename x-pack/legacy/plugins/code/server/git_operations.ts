@@ -7,7 +7,7 @@
 /* eslint-disable @typescript-eslint/camelcase */
 
 import { FileItem, LsTreeSummary, simplegit, SimpleGit } from '@elastic/simple-git/dist';
-import Boom from 'boom';
+import Boom from '@hapi/boom';
 import * as Path from 'path';
 import * as fs from 'fs';
 import { isBinaryFileSync } from 'isbinaryfile';

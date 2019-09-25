@@ -17,8 +17,8 @@
  * under the License.
  */
 
-import Boom from 'boom';
-import Joi from 'joi';
+import Boom from '@hapi/boom';
+import Joi from '@hapi/joi';
 import { serializeProvider, API_ROUTE } from '../../common';
 import { createHandlers } from '../lib/create_handlers';
 

@@ -4,7 +4,7 @@
  * you may not use this file except in compliance with the Elastic License.
  */
 
-import { Request, Server } from 'hapi';
+import { Request, Server } from '@hapi/hapi';
 import { createTestHapiServer } from '../test_utils';
 import { LocalHandlerAdapter } from './local_handler_adapter';
 import { CodeServerRouter } from '../security';

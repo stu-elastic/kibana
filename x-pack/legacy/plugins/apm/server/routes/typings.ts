@@ -5,7 +5,7 @@
  */
 
 import t from 'io-ts';
-import { Request, ResponseToolkit } from 'hapi';
+import { Request, ResponseToolkit } from '@hapi/hapi';
 import { InternalCoreSetup } from 'src/core/server';
 import { PickByValue, Optional } from 'utility-types';
 import { FetchOptions } from '../../public/services/rest/callApi';

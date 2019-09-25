@@ -18,7 +18,7 @@
  */
 
 import { KueryNode } from '@kbn/es-query';
-import Boom from 'boom';
+import Boom from '@hapi/boom';
 
 import { IndexMapping } from '../../../mappings';
 import { SavedObjectsSchema } from '../../../schema';

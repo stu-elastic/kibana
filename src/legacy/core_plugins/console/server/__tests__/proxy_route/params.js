@@ -22,7 +22,7 @@ import { Agent } from 'http';
 import sinon from 'sinon';
 import * as requestModule from '../../request';
 import expect from '@kbn/expect';
-import { Server } from 'hapi';
+import { Server } from '@hapi/hapi';
 
 import { createProxyRoute } from '../../';
 

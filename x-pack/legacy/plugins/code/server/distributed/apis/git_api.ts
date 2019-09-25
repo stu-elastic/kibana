@@ -5,7 +5,7 @@
  */
 
 import fileType from 'file-type';
-import Boom from 'boom';
+import Boom from '@hapi/boom';
 import { GitOperations } from '../../git_operations';
 import { FileTree } from '../../../model';
 import { RequestContext, ServiceHandlerFor } from '../service_definition';

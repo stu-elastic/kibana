@@ -4,9 +4,9 @@
  * you may not use this file except in compliance with the Elastic License.
  */
 
-import Boom from 'boom';
+import Boom from '@hapi/boom';
 import { i18n } from '@kbn/i18n';
-import { ServerRoute } from 'hapi';
+import { ServerRoute } from '@hapi/hapi';
 import { KibanaConfig, SavedObjectsLegacyService } from 'src/legacy/server/kbn_server';
 import { Logger, PluginInitializerContext, CoreSetup } from 'src/core/server';
 import { ElasticsearchPlugin } from 'src/legacy/core_plugins/elasticsearch';

@@ -57,7 +57,7 @@ module.exports = {
         },
         {
           from: 'joi',
-          toRelative: '@hapi/joi',
+          to: '@hapi/joi',
         },
         {
           from: 'inert',

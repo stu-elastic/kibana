@@ -19,7 +19,7 @@
 
 import sinon from 'sinon';
 import expect from '@kbn/expect';
-import { Server } from 'hapi';
+import { Server } from '@hapi/hapi';
 import { createResponseStub } from './stubs';
 import { createProxyRoute } from '../../';
 import * as requestModule from '../../request';

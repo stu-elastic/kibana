@@ -17,7 +17,7 @@
  * under the License.
  */
 import { Legacy } from 'kibana';
-import Joi from 'joi';
+import Joi from '@hapi/joi';
 
 async function handleRequest(request: Legacy.Request) {
   const { key } = request.params;

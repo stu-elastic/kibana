@@ -17,7 +17,7 @@
  * under the License.
  */
 
-import { Server } from 'hapi';
+import { Server } from '@hapi/hapi';
 
 // eslint-disable-next-line import/no-default-export
 export default function(kibana: any) {
