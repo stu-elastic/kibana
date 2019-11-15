@@ -13,7 +13,7 @@ import { loadLegacyServerFunctionWrappers } from 'plugins/interpreter/canvas/loa
 import { getAppReady, getBasePath } from '../../state/selectors/app';
 import { appReady, appError } from '../../state/actions/app';
 import { elementsRegistry } from '../../lib/elements_registry';
-import { registerLanguage } from '../../lib/monaco_language_def';
+import { registerLanguage } from '../../lib/monaco_painless_language_def';
 import { templatesRegistry } from '../../lib/templates_registry';
 import { tagsRegistry } from '../../lib/tags_registry';
 import { elementSpecs } from '../../../canvas_plugin_src/elements';

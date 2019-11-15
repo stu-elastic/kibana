@@ -19,7 +19,7 @@ import {
   getFnArgDefAtPosition,
 } from '../../../common/lib/autocomplete';
 
-import { LANGUAGE_ID } from '../../lib/monaco_language_def';
+import { LANGUAGE_ID } from '../../lib/monaco_painless_language_def';
 
 import { getFunctionReferenceStr, getArgReferenceStr } from './reference';
 
