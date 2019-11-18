@@ -35,17 +35,22 @@ interface Language extends monaco.languages.IMonarchLanguage {
  * https://microsoft.github.io/monaco-editor/monarch.html
  */
 export const language: Language = {
-  // Set defaultToken to invalid to see what you do not tokenize yet
-  defaultToken: 'invalid',
+  default: '',
 
-  // https://www.elastic.co/guide/en/elasticsearch/painless/master/painless-keywords.html
+  // painless does not use < >, so we define our own
+  brackets: [
+    { open: '{', close: '}', token: 'delimiter.curly' },
+    { open: '[', close: ']', token: 'delimiter.square' },
+    { open: '(', close: ')', token: 'delimiter.parenthesis' },
+  ],
+
   keywords: [
     'if',
+    'in',
     'else',
     'while',
     'do',
     'for',
-    'in',
     'continue',
     'break',
     'return',
@@ -56,74 +61,121 @@ export const language: Language = {
     'this',
     'instanceof',
   ],
-
-  // https://www.elastic.co/guide/en/elasticsearch/painless/master/painless-types.html
-  typeKeywords: ['byte', 'short', 'char', 'int', 'long', 'float', 'double', 'boolean', 'def'],
-
-  // https://www.elastic.co/guide/en/elasticsearch/painless/master/painless-operators.html
+  primitives: ['void', 'boolean', 'byte', 'short', 'char', 'int', 'long', 'float', 'double'],
+  constants: ['true', 'false'],
   operators: [
-    '.',
+    '=',
+    '>',
+    '<',
+    '!',
+    '~',
+    '?',
+    '?:',
     '?.',
+    ':',
+    '==',
+    '===',
+    '<=',
+    '>=',
+    '!=',
+    '!==',
+    '&&',
+    '||',
     '++',
     '--',
     '+',
     '-',
-    '!',
-    '~',
     '*',
     '/',
+    '&',
+    '|',
+    '^',
     '%',
     '<<',
     '>>',
     '>>>',
-    '>',
-    '>=',
-    '<',
-    '<=',
-    '==',
-    '!=',
-    '===',
-    '!==',
-    '&',
-    '^',
-    '|',
-    '&&',
-    '||',
-    '?:',
-    '=',
-    '*=',
-    '/=',
-    '%=',
     '+=',
     '-=',
+    '*=',
+    '/=',
+    '&=',
+    '|=',
+    '^=',
+    '%=',
     '<<=',
     '>>=',
     '>>>=',
-    '&=',
-    '^=',
-    '|=',
+    '->',
+    '::',
+    '=~',
+    '==~',
   ],
-
-  // https://www.elastic.co/guide/en/elasticsearch/painless/master/painless-identifiers.html
-  identifier: /[_a-zA-Z][_a-zA-Z-0-9]*/,
-  whitespace: /[ \t\r\n]+/,
-
   symbols: /[=><!~?:&|+\-*\/\^%]+/,
-
-  // The main tokenizer for our languages
+  escapes: /\\(?:[abfnrtv\\"']|x[0-9A-Fa-f]{1,4}|u[0-9A-Fa-f]{4}|U[0-9A-Fa-f]{8})/,
+  digits: /\d+(_+\d+)*/,
+  octaldigits: /[0-7]+(_+[0-7]+)*/,
+  binarydigits: /[0-1]+(_+[0-1]+)*/,
+  hexdigits: /[[0-9a-fA-F]+(_+[0-9a-fA-F]+)*/,
   tokenizer: {
     root: [
+      // identifiers and keywords
       [
-        /@identifier/,
+        /[a-zA-Z_][\w]*/,
         {
-          cases: { '@typeKeywords': 'keyword', '@keywords': 'keyword', '@default': 'identifier' },
+          cases: {
+            '@keywords': 'keyword',
+            '@primitives': 'type',
+            '@constants': 'constant',
+            '@default': 'identifier',
+          },
         },
       ],
-      [/[ \t\r\n]+/, 'white'],
+      // whitespace
+      [/[ \t\r\n]+/, ''],
+      // comments
+      [/\/\*/, 'comment', '@comment'],
+      [/\/\/.*$/, 'comment'],
+      // brackets
       [/[{}()\[\]]/, '@brackets'],
-      [/@symbols/, { cases: { '@operators': 'operator', '@default': '' } }],
-      [/\d+/, 'number'],
+      // operators
+      [
+        /@symbols/,
+        {
+          cases: {
+            '@operators': 'operators',
+            '@default': '',
+          },
+        },
+      ],
+      // numbers
+      [/(@digits)[eE]([\-+]?(@digits))?[fFdD]?/, 'number.float'],
+      [/(@digits)\.(@digits)([eE][\-+]?(@digits))?[fFdD]?/, 'number.float'],
+      [/0[xX](@hexdigits)[Ll]?/, 'number.hex'],
+      [/0(@octaldigits)[Ll]?/, 'number.octal'],
+      [/0[bB](@binarydigits)[Ll]?/, 'number.binary'],
+      [/(@digits)[fFdD]/, 'number.float'],
+      [/(@digits)[lL]?/, 'number'],
+      // delimiter: after numbers due to conflict with decimals and dot
       [/[;,.]/, 'delimiter'],
+      // strings double quoted
+      [/"([^"\\]|\\.)*$/, 'string.invalid'], // string without termination
+      [/"/, 'string', '@string_dq'],
+      // strings single quoted
+      [/'([^'\\]|\\.)*$/, 'string.invalid'], // string without termination
+      [/'/, 'string', '@string_sq'],
+    ],
+    comment: [[/[^\/*]+/, 'comment'], [/\*\//, 'comment', '@pop'], [/[\/*]/, 'comment']],
+    string_dq: [
+      [/[^\\"]+/, 'string'],
+      [/@escapes/, 'string.escape'],
+      [/\\./, 'string.escape.invalid'],
+      [/"/, 'string', '@pop'],
+    ],
+    string_sq: [
+      [/[^\\']+/, 'string'],
+      [/@escapes/, 'string.escape'],
+      [/\\./, 'string.escape.invalid'],
+      [/'/, 'string', '@pop'],
     ],
   },
 };
